@@ -30,8 +30,12 @@ namespace AirportAPI.Serivces
         public List<Airport> GetByIcao(string icao) =>
             _airports.Find<Airport>(airport => airport.icao == icao).ToList();
 
+        public List<Airport> GetByState(string state) =>
+            _airports.Find<Airport>(airport => airport.state == state).ToList();
+
         public List<Airport> GetByCountry(string country_id) =>
             _airports.Find<Airport>(airport => airport.country_id == country_id).ToList();
+            
 
         public List<Airport> GetByCity(string city_code) =>
             _airports.Find<Airport>(airport => airport.city_code == city_code).ToList();
