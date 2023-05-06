@@ -26,29 +26,40 @@ namespace AirportAPI.Controllers
             return airport;
         }
         
-        [HttpGet("/ByCity/{city_code}", Name = "GetAirportCity")]
-        public ActionResult<List<Airport>> GetByCity(string city_code)
-        {
-            var airport = _airportServices.GetByCity(city_code);
-
-            if (airport == null)
-                return NotFound();
-
-            return airport;
-        }
         [HttpGet("/ByState/{state}", Name = "GetAirportState")]
         public ActionResult<List<Airport>> GetByState(string state)
         {
             var airport = _airportServices.GetByState(state);
 
-            if (airport == null)
+            if (airport.Count == 0)
+                return NotFound();
+
+            return airport;
+        }
+        [HttpGet("/ByCity/{city_code}", Name = "GetAirportCityCode")]
+        public ActionResult<List<Airport>> GetByCityCode(string city_code)
+        {
+            var airport = _airportServices.GetByCityCode(city_code);
+
+            if (airport.Count == 0)
+                return NotFound();
+
+            return airport;
+        }
+
+        [HttpGet("/ByCityName/{city}", Name = "GetAirportCityName")]
+        public ActionResult<List<Airport>> GetByCityName(string city)
+        {
+            var airport = _airportServices.GetByCityName(city);
+
+            if (airport.Count == 0)
                 return NotFound();
 
             return airport;
         }
 
         [HttpGet("/ByIcao/{icao}", Name = "GetAirportIcao")]
-        public ActionResult<List<Airport>> GetByIcao(string icao)
+        public ActionResult<Airport> GetByIcao(string icao)
         {
             var airport = _airportServices.GetByIcao(icao);
 
