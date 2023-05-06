@@ -1,6 +1,5 @@
 ﻿using AirportAPI.Models;
 using AirportAPI.Serivces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -16,16 +15,6 @@ namespace AirportAPI.Controllers
             _airportServices = airportServices;
         }
 
-        //[HttpPost]
-        //public ActionResult<Airport> Create(Airport airport)
-        //{
-        //    _airportServices.Create(airport);
-        //    return Ok();
-        //}
-        
-        [HttpGet]
-        public ActionResult<List<Airport>> Get() => _airportServices.Get();
-
         [HttpGet("{iata}", Name = "GetAirportIata")]
         public ActionResult<Airport> Get(string iata)
         {
@@ -36,30 +25,41 @@ namespace AirportAPI.Controllers
 
             return airport;
         }
-        [HttpGet("/ByCountry/{country_id}", Name = "GetAirportCountry")]
-        public ActionResult<List<Airport>> GetByCountry(string country_id)
+        
+        [HttpGet("/ByState/{state}", Name = "GetAirportState")]
+        public ActionResult<List<Airport>> GetByState(string state)
         {
-            var airport = _airportServices.GetByCountry(country_id);
+            var airport = _airportServices.GetByState(state);
 
-            if (airport == null)
+            if (airport.Count == 0)
+                return NotFound();
+
+            return airport;
+        }
+        [HttpGet("/ByCity/{city_code}", Name = "GetAirportCityCode")]
+        public ActionResult<List<Airport>> GetByCityCode(string city_code)
+        {
+            var airport = _airportServices.GetByCityCode(city_code);
+
+            if (airport.Count == 0)
                 return NotFound();
 
             return airport;
         }
 
-        [HttpGet("/ByCity/{city_code}", Name = "GetAirportCity")]
-        public ActionResult<List<Airport>> GetByCity(string city_code)
+        [HttpGet("/ByCityName/{city}", Name = "GetAirportCityName")]
+        public ActionResult<List<Airport>> GetByCityName(string city)
         {
-            var airport = _airportServices.GetByCity(city_code);
+            var airport = _airportServices.GetByCityName(city);
 
-            if (airport == null)
+            if (airport.Count == 0)
                 return NotFound();
 
             return airport;
         }
 
         [HttpGet("/ByIcao/{icao}", Name = "GetAirportIcao")]
-        public ActionResult<List<Airport>> GetByIcao(string icao)
+        public ActionResult<Airport> GetByIcao(string icao)
         {
             var airport = _airportServices.GetByIcao(icao);
 
